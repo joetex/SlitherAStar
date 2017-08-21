@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Slither.io-bot A* local
+// @name         Slither.io-bot AStar (local)
 // @namespace    http://slither.io/
-// @version      0.9.7
-// @description  Slither.io-bot A* local
+// @version      0.9.8
+// @description  Slither.io-bot AStar (local)
 // @author       JoeOfTex
 // @match        http://slither.io/
 // @require		 file:///C:/Users/Joel/Documents/GitHub/Slither.io-bot/Slither.io-bot/btree-complete.js

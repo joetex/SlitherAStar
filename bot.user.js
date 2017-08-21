@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Slither.io-bot A*
+// @name         Slither.io-bot AStar
 // @namespace    http://slither.io/
-// @version      0.9.7
-// @description  Slither.io bot A*
+// @version      0.9.8
+// @description  Slither.io bot AStar
 // @author       JoeOfTex
 // @match        http://slither.io/
 // @grant        none

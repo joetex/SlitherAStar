@@ -1,14 +1,14 @@
 // ==UserScript==
-// @name         Slither.io-bot A* OneEyed
+// @name         Slither.io-bot AStar (user)
 // @namespace    http://slither.io/
-// @version      0.9.7.1
-// @description  Slither.io bot A* OneEyed
+// @version      0.9.8
+// @description  Slither.io bot AStar (user)
 // @author       JoeOfTex
 // @match        http://slither.io/
-// @require		 https://github.com/OneEyed/Slither.io-bot/raw/Grid-System/btree-complete.js
-// @require		 https://github.com/OneEyed/Slither.io-bot/raw/Grid-System/bot.astar.js
-// @require		 https://github.com/OneEyed/Slither.io-bot/raw/Grid-System/bot.gridsystem.js
-// @require		 https://github.com/OneEyed/Slither.io-bot/raw/Grid-System/bot.behaviors.js
-// @require		 https://github.com/OneEyed/Slither.io-bot/raw/Grid-System/bot.user.js
+// @require		 https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/btree-complete.js
+// @require		 https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.astar.js
+// @require		 https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.gridsystem.js
+// @require		 https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.behaviors.js
+// @require		 https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.user.js
 // @grant        none
 // ==/UserScript==
