@@ -1,3 +1,8 @@
 Slither.io A* Bot
 
-TamperMonkey is required, drop the bot.meta.js file into the Dashboard.
+TamperMonkey is required.
+
+To install, copy this script into TamperMonkey:
+https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.meta.js
+
+Configuration is done while game is playing, the bot will display a new UI to manage the configuration with keyboard keys.

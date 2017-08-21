@@ -5,7 +5,7 @@
 // @description  Slither.io bot AStar (github)
 // @author       JoeOfTex
 // @match        http://slither.io/
-// @require      https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/btree-complete.min.js
+// @require      https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/btree-complete.js
 // @require      https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.astar.js
 // @require      https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.gridsystem.js
 // @require      https://raw.githubusercontent.com/OneEyed/SlitherAStar/master/bot.behaviors.js
