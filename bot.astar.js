@@ -133,7 +133,7 @@ var astar = {
             var currentNode = openHeap.pop();
 
             // End case -- result has been found, return the traced path.
-            if (currentNode.x == endgx && currentNode.y == end.y) {
+            if (currentNode.x == end.x && currentNode.y == end.y) {
                 return pathTo(currentNode);
             }
 
