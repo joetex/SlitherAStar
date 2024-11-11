@@ -150,8 +150,8 @@ The map unit -> mouse unit is made using this function::
 
     // Convert map coordinates to mouse coordinates.
     mapToMouse: function(point) {
-        var mouseX = (point.x - window.snake.xx) * window.gsc;
-        var mouseY = (point.y - window.snake.yy) * window.gsc;
+        var mouseX = (point.x - window.slither.xx) * window.gsc;
+        var mouseY = (point.y - window.slither.yy) * window.gsc;
         return {
             x: mouseX,
             y: mouseY

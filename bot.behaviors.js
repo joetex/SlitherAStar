@@ -8,60 +8,84 @@
 // @grant        none
 // ==/UserScript==
 
-var behaviors = (function() {
+var behaviors = (function () {
     return {
-        init: function() {
+        init: function () {
+            behaviors.newTask("actionSuggestFood", behaviors.actionSuggestFood);
+            behaviors.newTask("actionSprint", behaviors.actionSprint);
+            behaviors.newTask("actionWalk", behaviors.actionWalk);
+            behaviors.newTask(
+                "actionToCenterOfMap",
+                behaviors.actionToCenterOfMap
+            );
+            behaviors.newTask("actionStopFollow", behaviors.actionStopFollow);
+            behaviors.newTask("actionNone", behaviors.actionNone);
+            behaviors.newTask(
+                "actionAvoidSurround",
+                behaviors.actionAvoidSurround
+            );
+            behaviors.newTask(
+                "action180FromSnake",
+                behaviors.action180FromSnake
+            );
+            behaviors.newTask(
+                "actionTrollSurrounderer",
+                behaviors.actionTrollSurrounderer
+            );
+            behaviors.newTask("actionMoveToGoal", behaviors.actionMoveToGoal);
+            behaviors.newTask("actionFollowPath", behaviors.actionFollowPath);
+            behaviors.newTask(
+                "actionExitSequence",
+                behaviors.actionExitSequence
+            );
 
-            behaviors.newTask('actionSuggestFood', behaviors.actionSuggestFood);
-            behaviors.newTask('actionSprint', behaviors.actionSprint);
-            behaviors.newTask('actionWalk', behaviors.actionWalk);
-            behaviors.newTask('actionToCenterOfMap', behaviors.actionToCenterOfMap);
-            behaviors.newTask('actionStopFollow', behaviors.actionStopFollow);
-            behaviors.newTask('actionNone', behaviors.actionNone);
-            behaviors.newTask('actionAvoidSurround', behaviors.actionAvoidSurround);
-            behaviors.newTask('action180FromSnake', behaviors.action180FromSnake);
-            behaviors.newTask('actionTrollSurrounderer', behaviors.actionTrollSurrounderer);
-            behaviors.newTask('actionMoveToGoal', behaviors.actionMoveToGoal);
-            behaviors.newTask('actionFollowPath', behaviors.actionFollowPath);
-            behaviors.newTask('actionExitSequence', behaviors.actionExitSequence);
-
-            behaviors.newTask('isPathAvailable', behaviors.isPathAvailable);
-            behaviors.newTask('isNearEnemySnakeBody', behaviors.isNearEnemySnakeBody);
-            behaviors.newTask('isAlmostSurrounded', behaviors.isAlmostSurrounded);
-            behaviors.newTask('isSurrounded', behaviors.isSurrounded);
-            behaviors.newTask('isTouchingSnake', behaviors.isTouchingSnake);
-            behaviors.newTask('isTargetBlockedBySnake', behaviors.isTargetBlockedBySnake);
-            behaviors.newTask('isFoodExists', behaviors.isFoodExists);
-            behaviors.newTask('isGoodFood', behaviors.isGoodFood);
-            behaviors.newTask('isFollowingFood', behaviors.isFollowingFood);
-            behaviors.newTask('isReachedTarget', behaviors.isReachedTarget);
-            behaviors.newTask('isFacingTarget', behaviors.isFacingTarget);
-            behaviors.newTask('isNearEnemySnakeHead', behaviors.isNearEnemySnakeHead);
-            behaviors.newTask('isSprintAllowed', behaviors.isSprintAllowed);
-            behaviors.newTask('isHighQualityFoodAvailable', behaviors.isHighQualityFoodAvailable);
-
+            behaviors.newTask("isPathAvailable", behaviors.isPathAvailable);
+            behaviors.newTask(
+                "isNearEnemySnakeBody",
+                behaviors.isNearEnemySnakeBody
+            );
+            behaviors.newTask(
+                "isAlmostSurrounded",
+                behaviors.isAlmostSurrounded
+            );
+            behaviors.newTask("isSurrounded", behaviors.isSurrounded);
+            behaviors.newTask("isTouchingSnake", behaviors.isTouchingSnake);
+            behaviors.newTask(
+                "isTargetBlockedBySnake",
+                behaviors.isTargetBlockedBySnake
+            );
+            behaviors.newTask("isFoodExists", behaviors.isFoodExists);
+            behaviors.newTask("isGoodFood", behaviors.isGoodFood);
+            behaviors.newTask("isFollowingFood", behaviors.isFollowingFood);
+            behaviors.newTask("isReachedTarget", behaviors.isReachedTarget);
+            behaviors.newTask("isFacingTarget", behaviors.isFacingTarget);
+            behaviors.newTask(
+                "isNearEnemySnakeHead",
+                behaviors.isNearEnemySnakeHead
+            );
+            behaviors.newTask("isSprintAllowed", behaviors.isSprintAllowed);
+            behaviors.newTask(
+                "isHighQualityFoodAvailable",
+                behaviors.isHighQualityFoodAvailable
+            );
 
             //MAIN Sequence, all sequences/tasks/conditions go in here
-            behaviors.newSequence('sequenceFoodTest',
-            [
-
+            behaviors.newSequence("sequenceFoodTest", [
                 //Avoid Collisions Sequence, this is highest priority
                 behaviors.sequence([
-
                     behaviors.condition({
-                        test: 'isNearEnemySnakeBody',
-                            pass:
-                                behaviors.sequence([
-                                    'action180FromSnake',
-                                    'actionMoveToGoal',
-                                    behaviors.condition({
-                                        test: 'isSprintAllowed',
-                                            pass: 'actionSprint',
-                                            fail: 'actionWalk'
-                                    }),
-                                    //'actionExitSequence'
-                                ]),
-                            fail: 'actionNone'
+                        test: "isNearEnemySnakeBody",
+                        pass: behaviors.sequence([
+                            "action180FromSnake",
+                            "actionMoveToGoal",
+                            behaviors.condition({
+                                test: "isSprintAllowed",
+                                pass: "actionSprint",
+                                fail: "actionWalk",
+                            }),
+                            //'actionExitSequence'
+                        ]),
+                        fail: "actionNone",
                     }),
                     /*behaviors.sequence([
 
@@ -75,118 +99,116 @@ var behaviors = (function() {
                     ]),*/
 
                     behaviors.condition({
-                        test: 'isAlmostSurrounded',
-                            pass:
-                                behaviors.sequence([
-                                    'actionAvoidSurround',
-                                    behaviors.condition({
-                                        test: 'isSprintAllowed',
-                                            pass: 'actionSprint',
-                                            fail: 'actionWalk'
-                                    }),
-                                    //'actionExitSequence'
-                                ]),
-                            fail: 'actionNone'
-                    })
+                        test: "isAlmostSurrounded",
+                        pass: behaviors.sequence([
+                            "actionAvoidSurround",
+                            behaviors.condition({
+                                test: "isSprintAllowed",
+                                pass: "actionSprint",
+                                fail: "actionWalk",
+                            }),
+                            //'actionExitSequence'
+                        ]),
+                        fail: "actionNone",
+                    }),
                 ]),
 
                 //Follow food, always when possible
                 behaviors.condition({
-                    test: 'isFollowingFood',
-                    pass:
-                        behaviors.condition({
-                            test: 'isPathAvailable',
-                                pass: 'actionFollowPath',
-                                fail:
-                                    behaviors.sequence([
-                                        'actionStopFollow',
-                                        'actionExitSequence'
-                                    ])
-                        }),
-                    fail:
-                        behaviors.condition({
-                            test: 'isFoodExists',
-                                pass: 'actionSuggestFood',
-                                fail: 'actionToCenterOfMap'
-                        })
+                    test: "isFollowingFood",
+                    pass: behaviors.condition({
+                        test: "isPathAvailable",
+                        pass: "actionFollowPath",
+                        fail: behaviors.sequence([
+                            "actionStopFollow",
+                            "actionExitSequence",
+                        ]),
+                    }),
+                    fail: behaviors.condition({
+                        test: "isFoodExists",
+                        pass: "actionSuggestFood",
+                        fail: "actionToCenterOfMap",
+                    }),
                 }),
 
                 //Can we sprint to the food?
                 behaviors.condition({
-                    test: 'isSprintAllowed',
-                        pass: 'actionSprint',
-                        fail: 'actionWalk'
+                    test: "isSprintAllowed",
+                    pass: "actionSprint",
+                    fail: "actionWalk",
                 }),
 
                 //Did we reach target?
                 behaviors.condition({
-                    test: 'isReachedTarget',
-                        pass: 'actionStopFollow',
-                        fail:
-                            //Look for High quality food
-                            behaviors.condition({
-                                test: 'isHighQualityFoodAvailable',
-                                    pass:
-                                        behaviors.sequence([
-                                            'actionStopFollow',
-                                            'actionSuggestFood'
-                                        ]),
-                                    fail: 'actionNone'
-                            })
-                })
+                    test: "isReachedTarget",
+                    pass: "actionStopFollow",
+                    fail:
+                        //Look for High quality food
+                        behaviors.condition({
+                            test: "isHighQualityFoodAvailable",
+                            pass: behaviors.sequence([
+                                "actionStopFollow",
+                                "actionSuggestFood",
+                            ]),
+                            fail: "actionNone",
+                        }),
+                }),
             ]);
 
             //This is the tree that is called from the "bot" module
-            behaviors.newTree('snakebot', ['sequenceFoodTest']);
-
+            behaviors.newTree("snakebot", ["sequenceFoodTest"]);
         },
 
-        isSprintAllowed: function(obj) {
-
-            if( bot.behaviorData.manualSprint ) {
+        isSprintAllowed: function (obj) {
+            if (bot.behaviorData.manualSprint) {
                 this.success();
                 return;
             }
 
-            var isAlmostSurrouneded = (bot.radarResults && bot.radarResults.open.length > 0 && bot.radarResults.pct < window.botsettings.radarSurroundPercent);
+            var isAlmostSurrouneded =
+                bot.radarResults &&
+                bot.radarResults.open.length > 0 &&
+                bot.radarResults.pct < window.botsettings.radarSurroundPercent;
 
-
-            if( obj.insidesnake ) {
+            if (obj.insidesnake) {
                 this.fail();
                 return;
             }
 
-            if( obj.nearsnake && !isAlmostSurrouneded ) {
+            if (obj.nearsnake && !isAlmostSurrouneded) {
                 this.fail();
                 return;
             }
 
-
-            var v = canvas.getRelativeAngle(window.getPos(), obj.followCoordinates);
-            var isFacingTarget = (v.dot >= window.botsettings.isFacingTargetAngle);
-            if( isAlmostSurrouneded && isFacingTarget) {
+            var v = canvas.getRelativeAngle(
+                window.getPos(),
+                obj.followCoordinates
+            );
+            var isFacingTarget =
+                v.dot >= window.botsettings.isFacingTargetAngle;
+            if (isAlmostSurrouneded && isFacingTarget) {
                 this.success();
                 return;
             }
 
-            if( obj.foodTarget && obj.foodTarget.score > window.botsettings.foodHighQualityScore ) {
-
-
-                if( isFacingTarget ) {
+            if (
+                obj.foodTarget &&
+                obj.foodTarget.score > window.botsettings.foodHighQualityScore
+            ) {
+                if (isFacingTarget) {
                     this.success();
                     return;
                 }
-
             }
             this.fail();
         },
 
         //Exit a sequence immediately, the fail will propopage to the root node
-        actionExitSequence: function(obj) {
+        actionExitSequence: function (obj) {
             this.fail();
         },
 
-        actionSuggestFood: function(obj) {
+        actionSuggestFood: function (obj) {
             //window.setAcceleration(0);
             var foodCnt = 0;
             var bestFood = 0;
@@ -194,33 +216,42 @@ var behaviors = (function() {
             var destpos;
             var curpos = window.getPos();
 
-            for(var i=0; i<collisionGrid.foodGroups.length; i++) {
+            for (var i = 0; i < collisionGrid.foodGroups.length; i++) {
                 bestFood = collisionGrid.foodGroups[i];
                 var foodcnt = bestFood.nodes.length;
-                foodPos = {x: bestFood.sumx / foodcnt, y:bestFood.sumy / foodcnt};
+                foodPos = {
+                    x: bestFood.sumx / foodcnt,
+                    y: bestFood.sumy / foodcnt,
+                };
 
-
-                var line = collisionGrid.lineTest(curpos.x, curpos.y, foodPos.x, foodPos.y,TYPE_SNAKE);
+                var line = collisionGrid.lineTest(
+                    curpos.x,
+                    curpos.y,
+                    foodPos.x,
+                    foodPos.y,
+                    TYPE_SNAKE
+                );
                 //var linePos = collisionGrid.getCellByColRow(line.col,line.row);
-                if( line.node )
-                    continue;
+                if (line.node) continue;
 
                 destpos = collisionGrid.getCellByXY(foodPos.x, foodPos.y);
-                if( destpos.node.type==TYPE_FOOD)
-                    break;
+                if (destpos.node.type == TYPE_FOOD) break;
             }
 
             obj.foodTarget = bestFood;
-            obj.followTime = (new Date()).getTime();
-            obj.followCoordinates = {x: foodPos.x, y:foodPos.y};
-            obj.goalCoordinates = {x: foodPos.x, y:foodPos.y};
+            obj.followTime = new Date().getTime();
+            obj.followCoordinates = { x: foodPos.x, y: foodPos.y };
+            obj.goalCoordinates = { x: foodPos.x, y: foodPos.y };
 
             this.success();
         },
 
-        isHighQualityFoodAvailable: function(obj) {
-            if( collisionGrid.foodGroups.length ) {
-                if( collisionGrid.foodGroups[0].score > window.botsettings.foodHighQualityScore ) {
+        isHighQualityFoodAvailable: function (obj) {
+            if (collisionGrid.foodGroups.length) {
+                if (
+                    collisionGrid.foodGroups[0].score >
+                    window.botsettings.foodHighQualityScore
+                ) {
                     this.success();
                     return;
                 }
@@ -228,69 +259,78 @@ var behaviors = (function() {
             this.fail();
         },
 
-        isSprinting: function(obj) {
-            if( window.snake.sp > 7 ) {
+        isSprinting: function (obj) {
+            if (window.slither.sp > 7) {
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        isWalking: function(obj) {
-            if( window.snake.sp <= 7 ) {
+        isWalking: function (obj) {
+            if (window.slither.sp <= 7) {
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        actionMoveToGoal: function(obj) {
+        actionMoveToGoal: function (obj) {
             if (window.visualDebugging && bot.behaviorData.goalCoordinates) {
                 var headCoord = {
-                    x: window.snake.xx,
-                    y: window.snake.yy
+                    x: window.slither.xx,
+                    y: window.slither.yy,
                 };
                 canvas.drawLine(
                     canvas.mapToCanvas(headCoord),
                     canvas.mapToCanvas(bot.behaviorData.goalCoordinates),
-                    'green');
+                    "green"
+                );
 
-                canvas.drawCircle(bot.behaviorData.goalCoordinates, 'red', true);
+                canvas.drawCircle(
+                    bot.behaviorData.goalCoordinates,
+                    "red",
+                    true
+                );
             }
 
             canvas.setMouseCoordinates(canvas.mapToMouse(obj.goalCoordinates));
             this.success();
         },
 
-        actionFollowPath: function(obj) {
-            canvas.setMouseCoordinates(canvas.mapToMouse(obj.followCoordinates));
+        actionFollowPath: function (obj) {
+            canvas.setMouseCoordinates(
+                canvas.mapToMouse(obj.followCoordinates)
+            );
             this.success();
         },
 
-
-        action180FromSnake: function(obj) {
+        action180FromSnake: function (obj) {
             //console.log("action180 begin");
-            if( !obj.aggressor ) {
+            if (!obj.aggressor) {
                 this.fail();
                 console.log("no aggressor");
                 return;
             }
             //console.log("action180 success");
             var newcoord = {
-                x: window.snake.xx + (window.snake.xx - obj.aggressor.snk.closest.xx),
-                y: window.snake.yy + (window.snake.yy - obj.aggressor.snk.closest.yy)
+                x:
+                    window.slither.xx +
+                    (window.slither.xx - obj.aggressor.snk.closest.xx),
+                y:
+                    window.slither.yy +
+                    (window.slither.yy - obj.aggressor.snk.closest.yy),
             };
-            obj.followCoordinates = {x: newcoord.x, y:newcoord.x};
-            obj.goalCoordinates = {x: newcoord.x, y:newcoord.y};
+            obj.followCoordinates = { x: newcoord.x, y: newcoord.x };
+            obj.goalCoordinates = { x: newcoord.x, y: newcoord.y };
             this.success();
         },
 
         /**
          *  Avoid surround by choosing a random open path from our radar
          */
-        actionAvoidSurround: function(obj) {
-
-            if( !bot.radarResults.open.length ) {
+        actionAvoidSurround: function (obj) {
+            if (!bot.radarResults.open.length) {
                 this.fail();
                 return false;
             }
@@ -298,52 +338,65 @@ var behaviors = (function() {
             var curpos = window.getPos();
             var openList = bot.radarResults.open[0];
             var lineid = 0;
-            if( openList.length > 2 ) {
-                lineid = Math.floor(openList.length/2);
+            if (openList.length > 2) {
+                lineid = Math.floor(openList.length / 2);
             }
             var line = openList[lineid];
-            obj.surroundExitPos = collisionGrid.getCellByColRow(line.col,line.row);
+            obj.surroundExitPos = collisionGrid.getCellByColRow(
+                line.col,
+                line.row
+            );
 
-            if( window.visualDebugging ) {
-
+            if (window.visualDebugging) {
                 var canvasPosA = canvas.mapToCanvas({
                     x: curpos.x,
                     y: curpos.y,
-                    radius: 1
+                    radius: 1,
                 });
                 var canvasPosB = canvas.mapToCanvas({
                     x: obj.surroundExitPos.x,
                     y: obj.surroundExitPos.y,
-                    radius: 1
+                    radius: 1,
                 });
 
-
-                canvas.drawLine2(canvasPosA.x, canvasPosA.y, canvasPosB.x, canvasPosB.y, 1, 'blue');
+                canvas.drawLine2(
+                    canvasPosA.x,
+                    canvasPosA.y,
+                    canvasPosB.x,
+                    canvasPosB.y,
+                    1,
+                    "blue"
+                );
             }
 
-            obj.followCoordinates = {x: obj.surroundExitPos.x, y:obj.surroundExitPos.y};
-            obj.goalCoordinates = {x: obj.surroundExitPos.x, y:obj.surroundExitPos.y};
+            obj.followCoordinates = {
+                x: obj.surroundExitPos.x,
+                y: obj.surroundExitPos.y,
+            };
+            obj.goalCoordinates = {
+                x: obj.surroundExitPos.x,
+                y: obj.surroundExitPos.y,
+            };
             this.success();
         },
-
 
         /**
          *  Troll the snake surrounding us.
          *  Keep moving the snake to the furthest point
          */
-        actionTrollSurrounderer: function(obj) {
+        actionTrollSurrounderer: function (obj) {
             var collisions = bot.radarResults.collisions;
-            var furthest = collisions[collisions.length-1];
+            var furthest = collisions[collisions.length - 1];
             var cell = furthest.node;
             var curpos = window.getPos();
-            var newpos = {x:curpos.x,y:curpos.y};
+            var newpos = { x: curpos.x, y: curpos.y };
 
-            if( cell && cell.length ) {
+            if (cell && cell.length) {
                 //console.log("moving away from snake part");
                 newpos.x += curpos.x - cell[0].part.x;
                 newpos.y += curpos.y - cell[0].part.y;
-                obj.followCoordinates = {x: newpos.x, y:newpos.y};
-                obj.goalCoordinates = {x: newpos.x, y:newpos.y};
+                obj.followCoordinates = { x: newpos.x, y: newpos.y };
+                obj.goalCoordinates = { x: newpos.x, y: newpos.y };
                 //var dist = canvas.getDistance(curpos.x, curpos.y, cell[0].part.x, cell[0].part.y);
                 //if( dist > 100 ) {
                 //    bot.setNextState('findFood');
@@ -351,75 +404,98 @@ var behaviors = (function() {
             }
         },
 
-        isPathAvailable: function(obj) {
+        isPathAvailable: function (obj) {
             var curpos = window.getPos();
             var minpath = window.botsettings.followPathCount;
 
-            var cell = collisionGrid.getCellByXY(obj.goalCoordinates.x, obj.goalCoordinates.y);
-            if( cell.node.type == TYPE_SNAKE || (cell.node.type == TYPE_EMPTY && cell.node.items.length) ) {
+            var cell = collisionGrid.getCellByXY(
+                obj.goalCoordinates.x,
+                obj.goalCoordinates.y
+            );
+            if (
+                cell.node.type == TYPE_SNAKE ||
+                (cell.node.type == TYPE_EMPTY && cell.node.items.length)
+            ) {
                 this.fail();
                 return;
             }
 
-            var path = collisionGrid.generatePath(curpos.x, curpos.y, obj.goalCoordinates.x, obj.goalCoordinates.y);
+            var path = collisionGrid.generatePath(
+                curpos.x,
+                curpos.y,
+                obj.goalCoordinates.x,
+                obj.goalCoordinates.y
+            );
             //console.log("isPathAvailable");
-            if( path.length > minpath ) {
+            if (path.length > minpath) {
                 bot.currentPath = path;
-                if( window.visualDebugging )
-                    for(i=0; i<path.length; i++) {
-                        if( i == minpath )
-                            collisionGrid.drawCell(path[i].x, path[i].y, 'rgba(0,0,255,0.4)');
+                if (window.visualDebugging)
+                    for (i = 0; i < path.length; i++) {
+                        if (i == minpath)
+                            collisionGrid.drawCell(
+                                path[i].x,
+                                path[i].y,
+                                "rgba(0,0,255,0.4)"
+                            );
                         else
-                            collisionGrid.drawCell(path[i].x, path[i].y, 'rgba(255,0,0,0.4)');
+                            collisionGrid.drawCell(
+                                path[i].x,
+                                path[i].y,
+                                "rgba(255,0,0,0.4)"
+                            );
                     }
 
-
-                var cell = collisionGrid.getCellByColRow(path[minpath].x, path[minpath].y);
-                obj.followCoordinates = {x: cell.x, y:cell.y};
+                var cell = collisionGrid.getCellByColRow(
+                    path[minpath].x,
+                    path[minpath].y
+                );
+                obj.followCoordinates = { x: cell.x, y: cell.y };
                 this.success();
-            }
-            else {
-                obj.followCoordinates = {x: obj.goalCoordinates.x, y:obj.goalCoordinates.y};
+            } else {
+                obj.followCoordinates = {
+                    x: obj.goalCoordinates.x,
+                    y: obj.goalCoordinates.y,
+                };
                 this.fail();
             }
         },
 
-        actionWalk: function(obj) {
+        actionWalk: function (obj) {
             window.setAcceleration(0);
             this.success();
         },
 
-        actionSprint: function(obj) {
+        actionSprint: function (obj) {
             window.setAcceleration(1);
             this.success();
         },
 
-        actionToCenterOfMap: function(obj) {
-            obj.goalCoordinates = {x: 20000, y:20000};
+        actionToCenterOfMap: function (obj) {
+            obj.goalCoordinates = { x: 20000, y: 20000 };
             this.success();
         },
 
-        actionNone: function(obj) {
+        actionNone: function (obj) {
             this.success();
         },
 
-        actionStopFollow: function(obj) {
+        actionStopFollow: function (obj) {
             obj.followTime = 0;
             this.success();
         },
 
-        isFoodExists: function(obj) {
-            if( !collisionGrid.foodGroups.length ) {
+        isFoodExists: function (obj) {
+            if (!collisionGrid.foodGroups.length) {
                 this.fail();
                 return;
             }
             this.success();
         },
 
-        isFollowingFood: function(obj) {
-            var curtime = (new Date()).getTime();
+        isFollowingFood: function (obj) {
+            var curtime = new Date().getTime();
             var diff = curtime - obj.followTime;
-            if( diff <= window.botsettings.foodFollowTime ) {
+            if (diff <= window.botsettings.foodFollowTime) {
                 //console.log("Following FOOD!");
                 this.success();
                 return;
@@ -427,57 +503,74 @@ var behaviors = (function() {
             this.fail();
         },
 
-        isGoodFood: function(obj) {
-            if( obj.foodTarget && obj.foodTarget.score > window.botsettings.foodHighQualityScore ) {
+        isGoodFood: function (obj) {
+            if (
+                obj.foodTarget &&
+                obj.foodTarget.score > window.botsettings.foodHighQualityScore
+            ) {
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        isFacingTarget: function(obj) {
+        isFacingTarget: function (obj) {
             //var relv = {x: curpos.x - obj.followCoordinates.x, y: curpos.y-obj.followCoordinates.y};
 
-            var v = canvas.getRelativeAngle(window.getPos(), obj.goalCoordinates);
-            if( v.dot >= window.botsettings.isFacingTargetAngle ) {
+            var v = canvas.getRelativeAngle(
+                window.getPos(),
+                obj.goalCoordinates
+            );
+            if (v.dot >= window.botsettings.isFacingTargetAngle) {
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        isNearTarget: function(obj) {
+        isNearTarget: function (obj) {
             var curpos = window.getPos();
-            var dist = canvas.getDistance2(curpos.x, curpos.y, obj.goalCoordinates.x, obj.goalCoordinates.y);
-            if( dist < window.botsettings.isNearTargetDistance ) { //200 units
+            var dist = canvas.getDistance2(
+                curpos.x,
+                curpos.y,
+                obj.goalCoordinates.x,
+                obj.goalCoordinates.y
+            );
+            if (dist < window.botsettings.isNearTargetDistance) {
+                //200 units
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        isReachedTarget: function(obj) {
+        isReachedTarget: function (obj) {
             var curpos = window.getPos();
-            var dist = canvas.getDistance2(curpos.x, curpos.y, obj.goalCoordinates.x, obj.goalCoordinates.y);
-            if( dist < window.botsettings.isReachedTargetDistance ) { //50 units
+            var dist = canvas.getDistance2(
+                curpos.x,
+                curpos.y,
+                obj.goalCoordinates.x,
+                obj.goalCoordinates.y
+            );
+            if (dist < window.botsettings.isReachedTargetDistance) {
+                //50 units
                 this.success();
                 return;
             }
             this.fail();
         },
 
-        isNearEnemySnakeHead: function(obj) {
+        isNearEnemySnakeHead: function (obj) {
             var aggressorCnt = collisionGrid.snakeAggressors.length;
 
-            for(var i=0; i<aggressorCnt; i++) {
+            for (var i = 0; i < aggressorCnt; i++) {
                 var aggressor = collisionGrid.snakeAggressors[i];
 
-                collisionHelper.checkLineIntersection()
+                collisionHelper.checkLineIntersection();
             }
-
         },
 
-        isNearEnemySnakeBody: function(obj) {
+        isNearEnemySnakeBody: function (obj) {
             obj.nearsnake = false;
             obj.insidesnake = false;
 
@@ -485,13 +578,13 @@ var behaviors = (function() {
             var mindist = window.botsettings.isNearSnakeDistance;
 
             var curpos = window.getPos();
-            var cell = collisionGrid.getCellByXY(curpos.x,curpos.y);
-            if( cell.node.type == TYPE_SNAKE ) {
+            var cell = collisionGrid.getCellByXY(curpos.x, curpos.y);
+            if (cell.node.type == TYPE_SNAKE) {
                 var snake = cell.node.items[0].snake;
 
-                for(var i=0; i<aggressorCnt; i++) {
+                for (var i = 0; i < aggressorCnt; i++) {
                     var aggressor = collisionGrid.snakeAggressors[i];
-                    if( snake.id == aggressor.snk.id ) {
+                    if (snake.id == aggressor.snk.id) {
                         obj.aggressor = aggressor;
                         break;
                     }
@@ -502,14 +595,14 @@ var behaviors = (function() {
                 return;
             }
 
-            for(var i=0; i<aggressorCnt; i++) {
+            for (var i = 0; i < aggressorCnt; i++) {
                 var aggressor = collisionGrid.snakeAggressors[i];
-                if( aggressor.snk.sp > 7 )
+                if (aggressor.snk.sp > 7)
                     mindist = window.botsettings.isNearSpeedSnakeDistance;
-                else
-                    mindist = window.botsettings.isNearSnakeDistance;
-                mindist += aggressor.snk.snkWidthSqr + window.snake.snkWidthSqr;
-                if( aggressor.snk.closest.distance2 < mindist ) {
+                else mindist = window.botsettings.isNearSnakeDistance;
+                mindist +=
+                    aggressor.snk.snkWidthSqr + window.slither.snkWidthSqr;
+                if (aggressor.snk.closest.distance2 < mindist) {
                     obj.aggressor = aggressor;
                     //console.log("near snake");
                     obj.nearsnake = true;
@@ -520,8 +613,13 @@ var behaviors = (function() {
             this.fail();
         },
 
-        isAlmostSurrounded: function(obj) {
-            if( !obj.insidesnake && bot.radarResults && bot.radarResults.open.length > 0 && bot.radarResults.pct < window.botsettings.radarSurroundPercent ) {
+        isAlmostSurrounded: function (obj) {
+            if (
+                !obj.insidesnake &&
+                bot.radarResults &&
+                bot.radarResults.open.length > 0 &&
+                bot.radarResults.pct < window.botsettings.radarSurroundPercent
+            ) {
                 console.log("almost surrounded");
                 this.success();
                 return;
@@ -529,31 +627,34 @@ var behaviors = (function() {
             this.fail();
         },
 
-        isSurrounded: function(obj) {
-            if( bot.radarResults && bot.radarResults.open.length == 0 ) {
+        isSurrounded: function (obj) {
+            if (bot.radarResults && bot.radarResults.open.length == 0) {
                 this.success();
                 return;
             }
             this.fail();
         },
 
-
-        isTouchingSnake: function(obj) {
+        isTouchingSnake: function (obj) {
             var curpos = window.getPos();
             var currentCell = collisionGrid.getCellByXY(curpos.x, curpos.y);
-            if( currentCell.node && currentCell.node.type == TYPE_SNAKE ) {
-                bot.setNextState('avoidBody');
+            if (currentCell.node && currentCell.node.type == TYPE_SNAKE) {
+                bot.setNextState("avoidBody");
                 this.success();
                 return;
             }
             this.fail();
         },
 
-
-        isTargetBlockedBySnake: function(obj) {
-            var line = collisionGrid.lineTest(curpos.x, curpos.y, obj.goalCoordinates.x, obj.goalCoordinates.y, TYPE_SNAKE);
-            if( line.node.type == TYPE_SNAKE )
-            {
+        isTargetBlockedBySnake: function (obj) {
+            var line = collisionGrid.lineTest(
+                curpos.x,
+                curpos.y,
+                obj.goalCoordinates.x,
+                obj.goalCoordinates.y,
+                TYPE_SNAKE
+            );
+            if (line.node.type == TYPE_SNAKE) {
                 this.success();
                 return;
             }
@@ -575,50 +676,46 @@ var behaviors = (function() {
             this.fail();
         },
 
-
-
-
-
         trees: {},
-        newTask: function(name, run, start, end) {
-            start = start || function(obj){}
-            end = end || function(obj){}
+        newTask: function (name, run, start, end) {
+            start = start || function (obj) {};
+            end = end || function (obj) {};
             BehaviorTree.register(
                 name,
                 new BehaviorTree.Task({
                     title: name,
-                    run: run
+                    run: run,
                 })
             );
         },
 
-        newCondition: function(name, test, pass, fail) {
+        newCondition: function (name, test, pass, fail) {
             BehaviorTree.register(
                 name,
                 new BehaviorTree.Condition({
                     title: name,
-                    nodes: [test, pass, fail]
+                    nodes: [test, pass, fail],
                 })
             );
         },
 
-        newSequence: function(name, nodes) {
+        newSequence: function (name, nodes) {
             BehaviorTree.register(
                 name,
                 new BehaviorTree.Sequence({
                     title: name,
-                    nodes: nodes
+                    nodes: nodes,
                 })
             );
         },
 
-        newTree: function(name, nodes) {
+        newTree: function (name, nodes) {
             behaviors.trees[name] = new BehaviorTree({
                 title: name,
                 debug: true,
                 tree: new BehaviorTree.Sequence({
-                    nodes: nodes
-                })
+                    nodes: nodes,
+                }),
             });
         },
 
@@ -627,32 +724,33 @@ var behaviors = (function() {
         //data.pass = seq/task/cond when test passes
         //data.fail = seq/task/cond when test fails
         //@param data - {test:'', pass:'', fail''}
-        condition: function(data) {//test, pass, fail) {
+        condition: function (data) {
+            //test, pass, fail) {
             return new BehaviorTree.Condition({
-                nodes: [data.test, data.pass, data.fail]
+                nodes: [data.test, data.pass, data.fail],
             });
         },
 
-        sequence: function(nodes) {
+        sequence: function (nodes) {
             return new BehaviorTree.Sequence({
-                nodes: nodes
+                nodes: nodes,
             });
         },
 
-        invertTask: function(name) {
+        invertTask: function (name) {
             return new InvertDecorator({
-                title: 'inverted_'+name,
-                node:new BehaviorTree.Sequence({
-                    title:'inverted_seq_'+name,
-                    nodes: [ name ]
-                })
+                title: "inverted_" + name,
+                node: new BehaviorTree.Sequence({
+                    title: "inverted_seq_" + name,
+                    nodes: [name],
+                }),
             });
         },
 
-        run: function(treeName, obj) {
+        run: function (treeName, obj) {
             behaviors.trees[treeName].setObject(obj);
             behaviors.trees[treeName].step();
-        }
+        },
     };
 })();
 
